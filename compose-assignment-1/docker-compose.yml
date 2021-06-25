@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment: 
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=mysecretpassword
+  drupal:
+    image: drupal
+    ports:
+      - '8080:80'
+    volumes:
+      - './drupal-app/modules:/var/www/html/modules'
+      - './drupal-app/profiles:/var/www/html/profiles'
+      - './drupal-app/sites:/var/www/html/sites'
+      - './drupal-app/themes:/var/www/html/themes'
+    environment: 
+      - POSTGRES_DB=drupal
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=mysecretpassword
+    depends_on: 
+      - db
+
